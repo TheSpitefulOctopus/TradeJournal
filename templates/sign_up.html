@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% block title %}Sign Up{% endblock %} 
+{% block content %}
+<section class="hero is-dark is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-grey">Sign Up</h3>
+                <div class="box">
+                    <form action="{{url_for('sign_up')}}" method="POST">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="email" type="email" placeholder="Your Email" autofocus="">
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="username" type="text" placeholder="Username" autofocus="">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="password" type="password" placeholder="Your Password">
+                            </div>
+                        </div>
+                        <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+                    </form>
+                </div>
+                <p class="has-text-grey">
+                    <a href="{{url_for('login')}}">Log in</a> &nbsp;·&nbsp;
+                    <a href="../">Need Help?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

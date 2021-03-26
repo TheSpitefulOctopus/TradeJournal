@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{%block title%}{%endblock%}</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendar_unmini.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/c3.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datatables.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='js/d3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/c3.min.js') }}"></script>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+{% block content%}
+{% endblock %}
+
+
+</body>
+<script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<!-- <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script> -->
+<script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/datatables.js') }}"></script>
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>

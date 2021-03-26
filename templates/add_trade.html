@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Add Trade{% endblock %}
+{% block content %}
+<br>
+<section class="is-fullheight">
+    <div class="container">
+        <div>
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column has-text-white">
+                    <form action="{{url_for('submit_trade')}}" method="post">
+                        <div class="field">
+                            <label for="tickerName" class="">Ticker Name</label>
+                            <div class="control">
+                                <input type="text" name="tickerName" class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="entryDate" class="">Entry Date</label>
+                            <div class="control">
+                                <input type="date" name="entryDate" class="input" value="{{today}}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="exitDate" class="">Exit Date</label>
+                            <div class="control">
+                                <input type="date" name="exitDate" class="input" value="{{today}}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="entryTime" class="">Entry Time</label>
+                            <div class="control">
+                                <input type="time" name="entryTime" step="1" class="input" value="{{entryTime}}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="exitTime" class="">Exit Time</label>
+                            <div class="control">
+                                <input type="time" name="exitTime" step="1" class="input" value="{{exitTime}}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="numberOfShares" class="">Number of Shares</label>
+                            <div class="control">
+                                <input type="number" name="numberOfShares" class="input" value="1000">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="entryPrice" class="">Entry Price</label>
+                            <div class="control">
+                                <input type="number" name="entryPrice" step="0.01" class="input" value="0.00">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="exitPrice" class="">Exit Price</label>
+                            <div class="control">
+                                <input type="number" name="exitPrice" step="0.01" class="input" value="0.00">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="commissions" class="">Commission (buy and sell)</label>
+                            <div class="control">
+                                <input type="number" name="commissions" step="0.01" class="input" value="20.00">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="signalsBy" class="">System Signal</label>
+                            <div class="control">
+                                <!-- <input type="checkbox" name="system1" value="watchlist" class="checkbox">On Watchlist&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="system2" value="hasNews" class="checkbox">Has News&nbsp;&nbsp;&nbsp; -->
+                                <!-- <input type="checkbox" name="system3" value="highOfDay10" class="checkbox">High of Day 10 -->
+                                {% for tradingSystem in systems %}
+                                    <input type="checkbox" name="system_{{ tradingSystem[1] }}" value="{{ tradingSystem[1] }}" class="checkbox">{{ tradingSystem[1] }}&nbsp;&nbsp;&nbsp;
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="direction" class="">Direction</label>
+                            <div class="control">
+                                <input type="radio" name="direction" value="Long" class="checkbox" checked="checked">Long&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="direction" value="Short" class="checkbox">Short&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                        <div class="field is-grouped is-grouped-centered">
+                            <div class="control">
+                                <button class="button is-primary">Add Trade</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+{% endblock %}

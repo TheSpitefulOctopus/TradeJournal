@@ -1,0 +1,93 @@
+{% extends 'base.html' %} {% block title %}Day Results{% endblock %} {% block content %}
+
+<section>
+    <div class="calendar is-large">
+        <div class="calendar-nav">
+            <div></div>
+            <div>{{ date['year'] }} - {{ date['month'] }}</div>
+            <div></div>
+        </div>
+    </div>
+</section>
+
+<section class="hero is-dark">
+    <br>
+    
+    <div class="container">
+        <div class="title">
+            <h1>{{thisMonth}}</h1>
+        </div>
+        <br>
+        <div id="monthlychart"></div>
+        <script>
+            c3.generate({{ monthlychart| safe }})
+        </script>
+        <h1 class="title">Breakdown:</h1>
+    </div>
+
+    
+    <div class="hero-body">
+    {% for trade in monthlytrades: %}
+    <!-- <div class="container">
+    <div class="columns">
+        <div class="column notification is-warning"></div>
+        <div class="column notification is-success"></div>
+        <div class="column notification is-danger"></div>
+        <div class="column notification is-info"></div>
+        <div class="column notification is-warning"></div>
+    </div>
+    </div> -->
+    <!-- <div class="hero-body"> -->
+        <div class="container">
+            {% if trade[10] > 0: %}
+            <h1 class="title has-text-success">
+                {{trade[11]}}
+            </h1>
+            {% elif trade[10]
+            < 0: %} <h1 class="title has-text-danger">
+                {{trade[11]}}
+                </h1>
+                {% else: %}
+                <h1 class="title">
+                    {{trade[11]}}
+                </h1>
+                {% endif %}
+                <h2 class="subtitle">
+                    <div>
+                        Entry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ trade[1] }}
+                    </div>
+                    <div>
+                        Exit Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[2]}}
+                    </div>
+                    <div>
+                       Entry Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[3]}}
+                    </div>
+                    <div>
+                       Exit Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[4]}}
+                    </div>
+                    <div class="level">
+                        <div class="level-left">
+                            Trade Duration: {{ trade[5] }}
+                        </div>
+                        <div></div>
+                        <div class="level-right">
+                            Profit/Loss:&nbsp;{% if trade[10] > 0: %}
+                            <span class="has-text-success">{{trade[10]}}</span>{% elif trade[10]
+                            < 0: %}<span class="has-text-danger">{{trade[10]}}</span>{% else: %}
+                                <span>{{trade[10]}}</span>{% endif %}
+                        </div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">
+                            System Used: {{trade[12]}}
+                        </div>
+                    </div>
+                </h2>
+            <hr>
+        </div>
+    <!-- </div> -->
+    {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

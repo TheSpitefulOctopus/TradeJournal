@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block title %}Stats{% endblock %} 
+{% block content %}
+
+
+<section class="hero is-dark">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title has-text-white">Statistics</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">All Trades</h3>
+                    <div id="alltradeschart"></div>
+                    <script>
+                        c3.generate({{ alltradeschart| safe }})
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h4 class="title">Win vs Loss</h4>
+                    <div id="winlossPie" style="max-width:320px; max-height:320px;"></div>
+                    <script>
+                        c3.generate({{ winlosspie|safe }})
+                    </script>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h4 class="title">Profit vs Loss</h4>
+                    <div class="level">
+                        <div class="level-left">Profitable:</div>
+                        <div class="level-right">{{profitable}}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Loss:</div>
+                        <div class="level-right">{{loss}}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Break Even:</div>
+                        <div class="level-right">{{be}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h4 class="title">Per System</h4>
+                    <div id="systempie" style="max-width:320px; max-height:320px;"></div>
+                    <script>
+                        c3.generate({{ systempie|safe }})
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Average:</h3>
+                    <div class="level">
+                        <div class="level-left">Profit Per Day:</div>
+                        <div class="level-right">{{ averageprofitperday }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Profit Per Month:</div>
+                        <div class="level-right">{{ averageprofitpermonth }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Profit Per Quarter:</div>
+                        <div class="level-right">{{ averageprofitperquarter }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Profit Annually:</div>
+                        <div class="level-right">{{ averageprofitperyear }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Total:</h3>
+                    <div class="level">
+                        <div class="level-left">Number of Trades:</div>
+                        <div class="level-right">{{totalNumTrades}}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Trades by System:</div>
+                        <div class="level-right">
+                            <ul>
+                            {% for sys in systemAndCount %} 
+                                <li class="level-right">{{ sys }}&nbsp;/&nbsp;{{ systemAndCount[sys] }}</li> 
+                            {% endfor %}
+                            </ul>
+
+                        </div>
+                         
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">P/L by System:</h3>
+                    <div class="level">
+                        <div class="level-left">Win/Loss:</div>
+                        <div class="level-right">placeholder</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Longest:</h3>
+                    <div class="level">
+                        <div class="level-left">Winning Trade:</div>
+                        <div class="level-right">{{ longestwin }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Losing Trade:</div>
+                        <div class="level-right">{{ longestloss }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Shortest:</h3>
+                    <div class="level">
+                        <div class="level-left">Winning Trade:</div>
+                        <div class="level-right">{{ quickestwin }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Losing Trade:</div>
+                        <div class="level-right">{{ quickestloss }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Consecutive:</h3>
+                    <div class="level">
+                        <div class="level-left">Winners:</div>
+                        <div class="level-right">{{ maxwinsinarow }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Losers:</div>
+                        <div class="level-right">{{ maxlossinarow }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h3 class="title">Largest:</h3>
+                    <div class="level">
+                        <div class="level-left">Winning Trade:</div>
+                        <div class="level-right">{{ largestprofit }}</div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">Losing Trade:</div>
+                        <div class="level-right">{{ largestloss }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h2 class="title">Weekly Chart</h2>
+                    <div id="weeklychart" style="max-width:600px;"></div>
+                    <script>
+                        c3.generate({{ weeklyTrades|safe }})
+                    </script>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box notification is-dark">
+                    <h2 class="title">Monthly Chart</h2>
+                    <div id="monthlychart"></div>
+                    <script>
+                        c3.generate({{ monthlyChart|safe }})
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

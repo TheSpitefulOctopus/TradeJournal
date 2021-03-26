@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block title %}Add Trade{% endblock %} {% block content %}
+<br>
+<section class="is-fullheight">
+    <div class="container">
+       <div class="columns">
+           <div class="column"></div>
+           <div class="column has-text-white">
+               <form action="{{ url_for('editSystems') }}" method="post">
+                   <div class="field">
+                       <label for="SystemName" class="">System Name</label>
+                       <div class="control">
+                           <input type="text" class="input" name="SystemName">
+                       </div>
+                   </div>
+                   <div class="level">
+                       <div class="level-left"></div>
+                       <div class="level-right">
+                            <button class="button is-success">Add System</button>
+                       </div>
+                   </div>
+                   
+               </form>
+           </div>
+           <div class="column"></div>
+       </div>
+       <div class="columns">
+           <div class="column"></div>
+           <div class="column has-text-white">
+                <h1 class="title has-text-white">System List</h1>
+                <ul>
+                    {% for system in systemsList %}
+                    <div class="level">
+                        <div class="level-left">
+                            <li data-val="{{ system[0] }}">{{ system[1] }}</li>
+                        </div>
+                        <div></div>
+                        <div class="level-right">
+                            <span class="delete removeSystem"></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+           </div>
+           <div class="column"></div>
+       </div>
+    </div>
+</section>
+<br> {% endblock %}
