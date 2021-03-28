@@ -1,32 +1,29 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from functools import wraps
 import pendulum
 import calendargen
 import os
 import db
-import chart
+import chart 
 import json
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 dbfile = 'db/tradehistory.db'
 
 
+#originally used to only set session variables if there was a user session (removed login functionality)
+#dont really need login for a personal app and having to log in all the time was annoying
 def user(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'username' in session:
-            navupdate = db.navupdate()
-            print(navupdate)
-            numot = navupdate['numofTrades'][0]
-            session['today'] = navupdate['today']
-            session['tradesthismonth'] = navupdate['tradesthismonth'][0]
-            session['tradestoday'] = navupdate['tradestoday'][0]
-            session['numberOfTrades'] = numot
-            # return True
-        else:
-            # return False
-            return redirect(url_for('login'))
+        navupdate = db.navupdate()
+        numot = navupdate['numofTrades'][0]
+        session['today'] = navupdate['today']
+        session['tradesthismonth'] = navupdate['tradesthismonth'][0]
+        session['tradestoday'] = navupdate['tradestoday'][0]
+        session['numberOfTrades'] = numot
         return f(*args, **kwargs)
     return decorated_function
 
@@ -74,6 +71,10 @@ def add_trade():
 @app.route('/submit_trade', methods=['POST'])
 @user
 def submit_trade():
+    #
+    #get a new trade to add to the database
+    #updated from pendulum.create to pendulum.parse for working with time
+    #
     if request.method=="POST":
         systemsig = []
         ticker = request.form['tickerName'].upper()
@@ -91,17 +92,13 @@ def submit_trade():
         systemsig = ', '.join(systemsig)
         print(systemsig)
         direction = request.form["direction"]
-
         entrytime_split = entrytime.split(":")
         exittime_split = exittime.split(":")
-        dtentry = pendulum.create(2018,1,1,int(entrytime_split[0]),int(entrytime_split[1]),int(entrytime_split[2]))
-        dtexit = pendulum.create(2018,1,1,int(exittime_split[0]),int(exittime_split[1]),int(exittime_split[2]))
+        dtentry = pendulum.parse(entrytime, exact=True)
+        dtexit = pendulum.parse(exittime, exact=True)
         tradeDur = str(dtentry.diff(dtexit))
-        
         profit = (float(exitprice) - float(entryprice)) * int(numOfShares)
         profit = float("{0:.2f}".format(profit))
-
-
         db.addTrade(entrydate,exitdate,entrytime,exittime,tradeDur,numOfShares,direction,entryprice,exitprice,profit,ticker,systemsig)
         db.navupdate()
     return redirect('add_trade')
@@ -253,6 +250,7 @@ def removeSystem():
     db.removeSystem(_id)
     return "Successfully Removed System with id " + _id
 
+
 if __name__ == '__main__':
     db.__init__()
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host="127.0.0.1", port=8000, debug=True)
