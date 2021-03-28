@@ -1,6 +1,8 @@
 import pendulum
 import calendar
 
+
+# Generate information for the calendar to be created
 def calendarGen(year=None, month=None):
     #
     #
@@ -12,14 +14,14 @@ def calendarGen(year=None, month=None):
     if month == None or year == None:
         dt = pendulum.now()
         month = dt.month
-        monthName = dt.format("MMMM", formatter="alternative")
+        monthName = dt.format("MMMM")
         year = dt.year
         py = year
         ny = year
     else:
         dt = pendulum.Pendulum(year, month, 1)
         month = dt.month
-        monthName = dt.format("MMMM", formatter="alternative")
+        monthName = dt.format("MMMM")
         year = year
     #previous month
     pm = dt.subtract(months=1)

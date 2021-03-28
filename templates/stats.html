@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Stats{% endblock %} 
+{% block title %}Stats{% endblock %}
 {% block content %}
 
 
@@ -29,7 +29,7 @@
                     <h4 class="title">Win vs Loss</h4>
                     <div id="winlossPie" style="max-width:320px; max-height:320px;"></div>
                     <script>
-                        c3.generate({{ winlosspie|safe }})
+                        c3.generate({{ winlosspie| safe }})
                     </script>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <h4 class="title">Per System</h4>
                     <div id="systempie" style="max-width:320px; max-height:320px;"></div>
                     <script>
-                        c3.generate({{ systempie|safe }})
+                        c3.generate({{ systempie| safe }})
                     </script>
                 </div>
             </div>
@@ -94,13 +94,13 @@
                         <div class="level-left">Trades by System:</div>
                         <div class="level-right">
                             <ul>
-                            {% for sys in systemAndCount %} 
-                                <li class="level-right">{{ sys }}&nbsp;/&nbsp;{{ systemAndCount[sys] }}</li> 
-                            {% endfor %}
+                                {% for sys in systemAndCount %}
+                                <li class="level-right">{{ sys }}&nbsp;/&nbsp;{{ systemAndCount[sys] }}</li>
+                                {% endfor %}
                             </ul>
 
                         </div>
-                         
+
                     </div>
                 </div>
             </div>
@@ -179,7 +179,7 @@
                     <h2 class="title">Weekly Chart</h2>
                     <div id="weeklychart" style="max-width:600px;"></div>
                     <script>
-                        c3.generate({{ weeklyTrades|safe }})
+                        c3.generate({{ weeklyTrades| safe }})
                     </script>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                     <h2 class="title">Monthly Chart</h2>
                     <div id="monthlychart"></div>
                     <script>
-                        c3.generate({{ monthlyChart|safe }})
+                        c3.generate({{ monthlyChart| safe }})
                     </script>
                 </div>
             </div>

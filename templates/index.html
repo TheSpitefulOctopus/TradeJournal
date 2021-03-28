@@ -2,6 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
+
 <section>
     <div class="calendar is-large">
         <div class="calendar-nav">
@@ -38,54 +39,48 @@
             <div class="calendar-date">
                 {% if date != 0 %}
 
-                    <!-- {{'%02d'|format(date)}} -->
-                    
+                <!-- {{'%02d'|format(date)}} -->
 
-                <a href="{{year}}-{{month}}-{{date}}" class="date-item"
-                {% for day, profits in dayprofits %}
-                    {% if day[-2:] == '%02d'|format(date) %}
-                        {% if profits > 0.00 %}
-                            style="background: rgb(35,209,96) !important"
-                        {% elif profits < 0.00 %}
-                             style="background: #ff3860 !important"
-                        {% endif %}
-                    {% endif %}
-                {%endfor%}>
-                    {{date}}
+
+                <a href="{{year}}-{{month}}-{{date}}" class="date-item" {% for day, profits in dayprofits %} {% if
+                    day[-2:]=='%02d' |format(date) %} {% if profits> 0.00 %}
+                    style="background: rgb(35,209,96) !important"
+                    {% elif profits < 0.00 %} style="background: #ff3860 !important" {% endif %} {% endif %} {%endfor%}>
+                        {{date}}
                 </a>
-                    <div class="calendar-events">
-                        {% for item in allTrades %}  {%if item[0].split('-')[2] == '%02d'|format(date):%} {% if item[1]|float
-                        < 0.00: %} <a class="calendar-event is-danger">
+                <div class="calendar-events">
+                    {% for item in allTrades %} {%if item[0].split('-')[2] == '%02d'|format(date):%} {% if item[1]|float
+                    < 0.00: %} <a class="calendar-event is-danger">
+                        <div class="level">
+                            <div class="level-left">{{ item[2] }}</div>
+                            <div class="level-right">{{ item[1] }}</div>
+                        </div>
+                        </a>
+                        {% elif item[1]|float > 0.00: %}
+                        <a class="calendar-event is-success">
                             <div class="level">
                                 <div class="level-left">{{ item[2] }}</div>
                                 <div class="level-right">{{ item[1] }}</div>
                             </div>
-                            </a>
-                            {% elif item[1]|float > 0.00: %}
-                            <a class="calendar-event is-success">
-                                <div class="level">
-                                    <div class="level-left">{{ item[2] }}</div>
-                                    <div class="level-right">{{ item[1] }}</div>
-                                </div>
-                            </a>
-                            {% else %}
-                            <a class="calendar-event">
-                                <div class="level">
-                                    <div class="level-left">{{ item[2] }}</div>
-                                    <div class="level-right">{{ item[1] }}</div>
-                                </div>
-                            </a>
-                            {% endif %} {%endif%} {% endfor %}
-                    </div>
-                
-                    
-                        
+                        </a>
+                        {% else %}
+                        <a class="calendar-event">
+                            <div class="level">
+                                <div class="level-left">{{ item[2] }}</div>
+                                <div class="level-right">{{ item[1] }}</div>
+                            </div>
+                        </a>
+                        {% endif %} {%endif%} {% endfor %}
+                </div>
+
+
+
                 {% endif %}
             </div>
             {% endfor%}
 
 
-            
+
 
 
 
@@ -99,6 +94,9 @@
         </div>
     </div>
 </section>
+
+
+
 
 
 {% endblock %}

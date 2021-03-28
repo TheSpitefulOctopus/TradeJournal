@@ -1,4 +1,3 @@
-
 <nav class="navbar is-dark has-shadow">
     <div class="navbar-brand">
         <a href="{{url_for('index')}}" class="navbar-item">
@@ -13,79 +12,75 @@
         </a>
     </div>
     <div class="navbar-menu">
-    <div class="navbar-start"></div>
-    <div class="navbar-end">
-        
-        <a href="{{url_for('index')}}" class="navbar-item is-size-3">Home</a>
-        {% if session['username'] %}
-        <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-link">
-                <div class="has-text-centered">
-                    <span class="is-size-7">TRADES</span>
-                    <br>
-                    <!-- <span class="is-size-3">98</span> -->
-                    <span class="is-size-3">{{session['tradestoday']}}</span>
-                    <br>
-                    <!-- <span class="is-size-7">TOTAL TRADES</span> -->
-                    <span class="is-size-7">TODAY</span>
-                </div>
-            </span>
-            <div class="navbar-dropdown">
-                <a href="{{url_for('add_trade')}}" class="navbar-item">Add Trade</a>
-                <a href="{{session['today']}}" class="navbar-item">Today's Trades</a>
-            </div>
-        </div>
+        <div class="navbar-start"></div>
+        <div class="navbar-end">
 
-        <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-link">
-                <div class="has-text-centered">
-                    <span class="is-size-7">TRADES</span>
-                    <br>
-                    <span class="is-size-3">{{ session['tradesthismonth'] }}</span>
-                    <br>
-                    <span class="is-size-7">THIS MONTH</span>
+            <a href="{{url_for('index')}}" class="navbar-item is-size-3">Home</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <span class="navbar-link">
+                    <div class="has-text-centered">
+                        <span class="is-size-7">TRADES</span>
+                        <br>
+                        <!-- <span class="is-size-3">98</span> -->
+                        <span class="is-size-3">{{session['tradestoday']}}</span>
+                        <br>
+                        <!-- <span class="is-size-7">TOTAL TRADES</span> -->
+                        <span class="is-size-7">TODAY</span>
+                    </div>
+                </span>
+                <div class="navbar-dropdown">
+                    <a href="{{url_for('add_trade')}}" class="navbar-item">Add Trade</a>
+                    <a href="{{session['today']}}" class="navbar-item">Today's Trades</a>
                 </div>
-            </span>
-            <div class="navbar-dropdown">
-                <a href="{{url_for('stats')}}" class="navbar-item">Statistics</a>
-                <!-- <a href="{{session['today']}}" class="navbar-item">Today's Trades</a> -->
-                <a href="{{url_for('ptm')}}" class="navbar-item">Profit This Month</a>
             </div>
-        </div>
-        
-        <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-link">
-                <div class="has-text-centered">
-                    <span class="is-size-7">ACCOUNT</span>
-                    <br>
-                    <span class="is-size-3">{{ session['username'] }}</span>
-                    <br>
-                    <span class="is-size-7">SETTINGS</span>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <span class="navbar-link">
+                    <div class="has-text-centered">
+                        <span class="is-size-7">TRADES</span>
+                        <br>
+                        <span class="is-size-3">{{ session['tradesthismonth'] }}</span>
+                        <br>
+                        <span class="is-size-7">THIS MONTH</span>
+                    </div>
+                </span>
+                <div class="navbar-dropdown">
+                    <a href="{{url_for('stats')}}" class="navbar-item">Statistics</a>
+                    <!-- <a href="{{session['today']}}" class="navbar-item">Today's Trades</a> -->
+                    <a href="{{url_for('ptm')}}" class="navbar-item">Profit This Month</a>
                 </div>
-            </span>
-            <div class="navbar-dropdown">
-                <a class="setBalance navbar-item">Set Balance</a>  <!-- make this a modal -->
-                <a href="{{ url_for('editdb') }}" class="navbar-item">Edit Database</a>
-                <a href="{{ url_for('editSystems') }}" class="navbar-item">Edit Systems</a>
             </div>
-        </div>
-        <div class="navbar-item has-dropdown">
-            <span class="navbar-link">
-                <div class="has-text-centered">
-                    <span class="is-size-7">TOTAL</span>
-                    <br>
-                    <span class="is-size-3">{{ session['numberOfTrades'] }}</span>
-                    <br>
-                    <span class="is-size-7">TRADES</span>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <span class="navbar-link">
+                    <div class="has-text-centered">
+                        <span class="is-size-7">ACCOUNT</span>
+                        <br>
+                        <span class="is-size-3">{{ session['username'] }}</span>
+                        <br>
+                        <span class="is-size-7">SETTINGS</span>
+                    </div>
+                </span>
+                <div class="navbar-dropdown">
+                    <a class="setBalance navbar-item">Set Balance</a> <!-- make this a modal -->
+                    <a href="{{ url_for('editdb') }}" class="navbar-item">Edit Database</a>
+                    <a href="{{ url_for('editSystems') }}" class="navbar-item">Edit Systems</a>
                 </div>
-            </span>
+            </div>
+            <div class="navbar-item has-dropdown">
+                <span class="navbar-link">
+                    <div class="has-text-centered">
+                        <span class="is-size-7">TOTAL</span>
+                        <br>
+                        <span class="is-size-3">{{ session['numberOfTrades'] }}</span>
+                        <br>
+                        <span class="is-size-7">TRADES</span>
+                    </div>
+                </span>
+            </div>
+
+            
         </div>
-        
-            <a href="{{url_for('logout')}}" class="navbar-item is-size-3">Logout</a>
-        {% else: %}
-            <a href="{{url_for('login')}}" class="navbar-item is-size-3">Login</a>
-        {% endif %}
-    </div>
     </div>
 </nav>
 
@@ -98,9 +93,9 @@
         </header>
         <form action="{{url_for('setBalance')}}" method="POST">
             <section class="modal-card-body">
-                    <div class="field">
-                        <input type="number" step="0.01" class="input" name="setBalance" value="3000.00">
-                    </div>
+                <div class="field">
+                    <input type="number" step="0.01" class="input" name="setBalance" value="3000.00">
+                </div>
             </section>
             <footer class="modal-card-foot">
                 <button class="button is-success">Update balance</button>

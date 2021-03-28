@@ -70,15 +70,19 @@
                                 <input type="checkbox" name="system2" value="hasNews" class="checkbox">Has News&nbsp;&nbsp;&nbsp; -->
                                 <!-- <input type="checkbox" name="system3" value="highOfDay10" class="checkbox">High of Day 10 -->
                                 {% for tradingSystem in systems %}
-                                    <input type="checkbox" name="system_{{ tradingSystem[1] }}" value="{{ tradingSystem[1] }}" class="checkbox">{{ tradingSystem[1] }}&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="system_{{ tradingSystem[1] }}"
+                                    value="{{ tradingSystem[1] }}" class="checkbox">{{ tradingSystem[1]
+                                }}&nbsp;&nbsp;&nbsp;
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="field">
                             <label for="direction" class="">Direction</label>
                             <div class="control">
-                                <input type="radio" name="direction" value="Long" class="checkbox" checked="checked">Long&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="direction" value="Short" class="checkbox">Short&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="direction" value="Long" class="checkbox"
+                                    checked="checked">Long&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="direction" value="Short"
+                                    class="checkbox">Short&nbsp;&nbsp;&nbsp;
                             </div>
                         </div>
                         <div class="field is-grouped is-grouped-centered">

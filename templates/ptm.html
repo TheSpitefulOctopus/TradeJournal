@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block title %}Day Results{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% block title %}Day Results{% endblock %}
+{% block content %}
 
 <section>
     <div class="calendar is-large">
@@ -12,7 +14,7 @@
 
 <section class="hero is-dark">
     <br>
-    
+
     <div class="container">
         <div class="title">
             <h1>{{thisMonth}}</h1>
@@ -25,19 +27,10 @@
         <h1 class="title">Breakdown:</h1>
     </div>
 
-    
+
     <div class="hero-body">
-    {% for trade in monthlytrades: %}
-    <!-- <div class="container">
-    <div class="columns">
-        <div class="column notification is-warning"></div>
-        <div class="column notification is-success"></div>
-        <div class="column notification is-danger"></div>
-        <div class="column notification is-info"></div>
-        <div class="column notification is-warning"></div>
-    </div>
-    </div> -->
-    <!-- <div class="hero-body"> -->
+        {% for trade in monthlytrades: %}
+        
         <div class="container">
             {% if trade[10] > 0: %}
             <h1 class="title has-text-success">
@@ -60,10 +53,11 @@
                         Exit Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[2]}}
                     </div>
                     <div>
-                       Entry Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[3]}}
+                        Entry Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[3]}}
                     </div>
                     <div>
-                       Exit Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[4]}}
+                        Exit Time:
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{trade[4]}}
                     </div>
                     <div class="level">
                         <div class="level-left">
@@ -83,10 +77,10 @@
                         </div>
                     </div>
                 </h2>
-            <hr>
+                <hr>
         </div>
-    <!-- </div> -->
-    {% endfor %}
+        <!-- </div> -->
+        {% endfor %}
     </div>
 </section>
 

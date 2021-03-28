@@ -2,7 +2,7 @@ import c3pyo as c3
 from collections import Counter
 import db
 
-
+# create chart for day trades
 def chartDayTrades(dayTrades):
     x = range(0, len(dayTrades)+1)
     y = [0]
@@ -15,12 +15,12 @@ def chartDayTrades(dayTrades):
         totalLoss.append(tl)
     dailyChart = c3.LineChart()
     dailyChart.plot(x, y, color="orange", label="Profits")
-    dailyChart.plot(x, totalLoss, label="Total P/L:") 
+    dailyChart.plot(x, totalLoss, label="Total P/L:")
     dailyChart.bind_to('dailyChart')
 
     return dailyChart.json()
 
-
+# create chart to display monthly trades
 def monthlyChart(monthTrades):
     x = range(0, len(monthTrades)+1)
     y = [0]
@@ -37,7 +37,7 @@ def monthlyChart(monthTrades):
 
     return monthlyChart.json()
 
-
+# create a chart to display all trades
 def allTradesChart():
     alltrades = db.getAllTrades()
     startbal = db.getStartingBalance()
@@ -54,12 +54,13 @@ def allTradesChart():
         tradeprofits.append(newbal)
         totalLoss.append(tl)
     allTradesChart = c3.LineChart()
-    allTradesChart.plot(x,y, color="orange", label="Profits")
+    allTradesChart.plot(x, y, color="orange", label="Profits")
     allTradesChart.plot(x, totalLoss, label="Total P/L")
     allTradesChart.plot(x, tradeprofits, label="Account Balance")
     allTradesChart.bind_to('alltradeschart')
     return allTradesChart.json()
 
+# create a pie chart to display the win/loss
 def winlossPieChart():
     alltrades = db.getAllTrades()
     win = 0
@@ -81,6 +82,7 @@ def winlossPieChart():
     return winlossChart.json()
 
 
+# create a pie chart to display win/loss by system used
 def systemPieChart():
     systemTrades = db.getAllTrades()
     tradingSystems = []
@@ -98,6 +100,8 @@ def systemPieChart():
     systemPieChart.bind_to("systempie")
     return systemPieChart.json()
 
+
+# create a weekly chart
 def weeklyChart():
     weeklyTrades = db.getWeeklyTrades()
     x = range(0, len(weeklyTrades)+1)
@@ -113,5 +117,3 @@ def weeklyChart():
     weeklyChart.plot(x, totalLoss, label="Total P/L:")
     weeklyChart.bind_to('weeklychart')
     return weeklyChart.json()
-
-

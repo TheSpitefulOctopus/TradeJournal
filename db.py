@@ -1,79 +1,41 @@
-import sqlite3, pendulum
-from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
+import pendulum
 from collections import Counter
 
-dbfile = 'db/tradehistory.db'
+dbfile = "db/tradehistory.db"
 
 def __init__():
+    # create the database if it dosent exist already
     try:
         conn = sqlite3.connect(dbfile)
         curr = conn.cursor()
         curr.execute("CREATE TABLE IF NOT EXISTS tradehistory (id INTEGER PRIMARY KEY AUTOINCREMENT, entryDate TEXT, exitDate TEXT, entryTime TEXT, exitTime TEXT, tradeDur TEXT, shares INT, tradeDir TEXT, entryPrice REAL, exitPrice REAL, profit REAL, ticker TEXT, systemSig TEXT)")
-        curr.execute("CREATE TABLE IF NOT EXISTS startingBalance (id INTEGER PRIMARY KEY UNIQUE, startBalance INT)")
+        curr.execute("CREATE TABLE IF NOT EXISTS startingBalance (id INTEGER PRIMARY KEY UNIQUE, startBalance INT) ")
+        curr.execute("INSERT INTO startingBalance VALUES (NULL, 10000)")
+        # curr.execute("CREATE TABLE IF NOT EXISTS startingBalance (id INTEGER PRIMARY KEY UNIQUE, startBalance INT)")
+        # curr.execute("CREATE TABLE IF NOT EXISTS currentBalance (id INTEGER PRIMARY KEY UNIQUE, currentBalance INT DEFAULT 10000)")
         curr.execute("CREATE TABLE IF NOT EXISTS currentBalance (id INTEGER PRIMARY KEY UNIQUE, currentBalance INT)")
         curr.execute("CREATE TABLE IF NOT EXISTS Systems (id INTEGER PRIMARY KEY UNIQUE, systemName TEXT)")
-        curr.execute("CREATE TABLE IF NOT EXISTS whatsyourname (id INTEGER PRIMARY KEY AUTOINCREMENT, username text UNIQUE NOT NULL, email text UNIQUE NOT NULL, password text NOT NULL, admin boolean not null)")
         conn.commit()
         conn.close()
-        print('DB has been created at db/')
+        print("DB has been created at db/")
     except Exception:
-        print('DB already Exists')
+        print("DB already Exists or there was an error")
     return
 
-
-def register(email=None, username=None, password=None):
-    password = generate_password_hash(password, method="sha256", salt_length=8)
-    conn = sqlite3.connect(dbfile)
-    curr = conn.cursor()
-    try:
-        result = curr.execute("INSERT INTO whatsyourname VALUES(NULL,?,?,?,?)",(username, email, password, 0))
-        if result.rowcount >0:
-            result = 1
-    except Exception:
-        result = 0
-    conn.commit()
-    conn.close()
-    return result
-
-def login(username=None, password=None):
-    conn = sqlite3.connect(dbfile)
-    curr = conn.cursor()
-    user = curr.execute("SELECT id, username, password FROM whatsyourname WHERE username == ?;",[username])
-    user = user.fetchone()
-    conn.close()
-
-    if user != None:
-        if check_password_hash(user[2], password) and username == user[1]:
-            user = {"userid":user[0],"username":user[1]}
-            return user
-    return user
-
-# 	Close long position for 7.07 7.08 symbol NASDAQ:HEAR at price 3.58 for 2000 shares. Position AVG Price was 3.480000, currency: USD, rate: 1.000000 at 2018-03-29T07:33:06Z, point value: 1.000000
+# add a new trade into the database
 def addTrade(entrydate=None, exitdate=None, entrytime=None, exittime=None, tradeDur=None, numOfShares=None, direction=None, entryprice=None, exitprice=None, profit=None, ticker=None, systemsig=None):
     conn = sqlite3.connect(dbfile)
     curr = conn.cursor()
-    # print(type(entrydate))
-    # print(type(exitdate))
-    # print(type(entrytime))
-    # print(type(exittime))
-    # print(type(str(tradeDur)))
-    # print(type(numOfShares))
-    # print(type(direction))
-    # print(type(entryprice))
-    # print(type(exitprice))
-    # print(type(profit))
-    # print(type(ticker))
-    # print(type(systemsig))
     addedTrade = curr.execute("INSERT INTO tradehistory VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)",(entrydate, exitdate, entrytime, exittime, tradeDur, numOfShares, direction, entryprice, exitprice, profit, ticker, systemsig))
     addedTrade.fetchone()
     conn.commit()
     conn.close()
     updateBalance()
     navupdate()
-    # print(addedTrade)
     return
 
-
+# get all of the trades made for the month
 def monthlyTrades(year=None, month=None):
     year = year
     month = month
@@ -90,7 +52,7 @@ def monthlyTrades(year=None, month=None):
     # print(allTrades)
     return allTrades
 
-
+#get all of the trades for the day
 def dayTrades(year=None, month=None, day=None):
     year = year
     month = month
@@ -105,11 +67,9 @@ def dayTrades(year=None, month=None, day=None):
     query = curr.execute("SELECT * FROM tradehistory WHERE exitDate LIKE ?",[str(date)])
     allDayTrades = query.fetchall()
     conn.close()
-
-    # print(allDayTrades)
     return allDayTrades
 
-# import collections
+# get total profit for the day
 def dayprofits(year=None, month=None):
     year = year
     month = month
@@ -121,13 +81,11 @@ def dayprofits(year=None, month=None):
     query = curr.execute("SELECT entryDate, profit FROM tradehistory WHERE entryDate LIKE ?", [str(date)])
     dayprofits = query.fetchall()
     conn.close()
-    # for trade in dayprofits:
-    #     print(trade)
+    
     dayprofits = [(uk, sum([vv for kk, vv in dayprofits if kk == uk])) for uk in set([k for k, v in dayprofits])]
-    # print(dayprofits)
     return dayprofits
 
-
+# set the balance your account is starting with
 def setStartingBalance(balance):
     startingBalance = int(balance.split('.')[0])
     conn = sqlite3.connect(dbfile)
@@ -138,6 +96,7 @@ def setStartingBalance(balance):
     updateBalance()
     return
 
+# get the starting balance from the db
 def getStartingBalance():
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
@@ -147,19 +106,26 @@ def getStartingBalance():
     updateBalance()
     return res
 
+# update the balance in the db
 def updateBalance():
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
     startbal = c.execute("SELECT startBalance FROM startingBalance")
-    startbal = startbal.fetchall()[0][0]
+    try:
+        startbal = startbal.fetchall()[0][0]
+    except Exception:
+        startbal = int(0)    
     allprofit = c.execute("SELECT SUM(profit) from tradehistory")
     allprofit = allprofit.fetchall()[0][0]
+    if allprofit == None:
+        allprofit = 0.00
     curbal = startbal + allprofit
     c.execute("REPLACE INTO currentBalance VALUES(1,?)",[curbal])
     conn.commit() 
     conn.close()
     return
 
+#keep the navigation bar updated when new trades are added
 def navupdate():
     year = str(pendulum.today().year)
     month = str(pendulum.today().month)
@@ -183,6 +149,7 @@ def navupdate():
     return {"numofTrades":numot, "today":todaysDate, "tradestoday":tradestoday, "tradesthismonth":ttm}
 
 
+# get all trades for the month
 def monthlyChartTrades(year=None, month=None):
     year = year
     month = month
@@ -197,6 +164,7 @@ def monthlyChartTrades(year=None, month=None):
     return allTrades
 
 
+# get all trades for the week
 def getWeeklyTrades():
     conn = sqlite3.connect(dbfile)
     curr = conn.cursor()
@@ -205,7 +173,7 @@ def getWeeklyTrades():
     conn.close()
     return weeklyTrades
 
-
+# get all of the trades from the db
 def getAllTrades():
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
@@ -214,6 +182,8 @@ def getAllTrades():
     conn.close()
     return getAllTrades
 
+
+# remove a trade from the db
 def deleteTrade(_id):
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
@@ -222,7 +192,7 @@ def deleteTrade(_id):
     conn.close()
     return
 
-
+# add the name of a system to keep track of which ones are generating a profit
 def addSystems(systemName):
     # print(systemName)
     conn = sqlite3.connect(dbfile)
@@ -232,6 +202,7 @@ def addSystems(systemName):
     conn.close()
     return
 
+# get the name of the system used
 def getSystems():
     conn = sqlite3.connect(dbfile)
     cur = conn.cursor()
@@ -240,6 +211,7 @@ def getSystems():
     conn.close()
     return systems
 
+# Remove the system from the database
 def removeSystem(_id):
     conn = sqlite3.connect(dbfile)
     cur = conn.cursor()
@@ -248,7 +220,8 @@ def removeSystem(_id):
     conn.close()
     return
 
-
+#get all of the data needed for the stats page  
+#this page is still a wip and will display more information at some point
 def statsData():
     statsData = {}
     conn = sqlite3.connect(dbfile)

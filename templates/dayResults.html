@@ -15,7 +15,7 @@
 <section class="hero is-dark">
 
     <br>
-    
+
     <div class="container">
         <div class="title">
             <h1>{{thedateis}}</h1>
@@ -23,9 +23,9 @@
         <br>
         <div id="dailyChart"></div>
         <script>
-            c3.generate({{ daychart| safe }})
+            c3.generate( {{ daychart | safe }} )
         </script>
-        
+
         <div class="level">
             <div class="level-left">
                 <h1 class="title">Breakdown:</h1>
@@ -34,54 +34,54 @@
             <div class="level-right">
                 {% if totalpl > 0.00 %}
                 <h1 class="title">Total: $<span style="color:#23d160">{{totalpl}}</span></h1>
-                {% elif totalpl < 0.00 %}
-                <h1 class="title">Total: $<span style="color:#ff3860">{{totalpl}}</span></h1>
-                {% else %}
-                <h1 class="title">Total: $<span>{{totalpl}}</span></h1>
-                {% endif %}
+                {% elif totalpl < 0.00 %} <h1 class="title">Total: $<span style="color:#ff3860">{{totalpl}}</span></h1>
+                    {% else %}
+                    <h1 class="title">Total: $<span>{{totalpl}}</span></h1>
+                    {% endif %}
             </div>
         </div>
     </div>
-<div class="hero-body">
-    {% for trade in dayTrades: %}
-    <!-- <div class="hero-body"> -->
+    <div class="hero-body">
+        {% for trade in dayTrades: %}
+        <!-- <div class="hero-body"> -->
         <div class="container">
             {% if trade[10] > 0: %}
             <h1 class="title has-text-success">
                 {{trade[11]}}
             </h1>
-            {% elif trade[10] < 0: %}
-            <h1 class="title has-text-danger">
+            {% elif trade[10] < 0: %} <h1 class="title has-text-danger">
                 {{trade[11]}}
-            </h1>
-            {% else: %}
-            <h1 class="title">
-                {{trade[11]}}
-            </h1>
-            {% endif %}
-            <h2 class="subtitle">
-                <div class="level">
-                    <div class="level-left">
-                        Trade Duration: {{ trade[5] }}
+                </h1>
+                {% else: %}
+                <h1 class="title">
+                    {{trade[11]}}
+                </h1>
+                {% endif %}
+                <h2 class="subtitle">
+                    <div class="level">
+                        <div class="level-left">
+                            Trade Duration: {{ trade[5] }}
+                        </div>
+                        <div></div>
+                        <div class="level-right">
+                            Profit/Loss:&nbsp;{% if trade[10] > 0: %}<span
+                                class="has-text-success">{{trade[10]}}</span>{% elif trade[10] < 0: %}<span
+                                class="has-text-danger">{{trade[10]}}</span>{% else: %}<span>{{trade[10]}}</span>{%
+                                endif %}
+                        </div>
                     </div>
-                    <div></div>
-                    <div class="level-right">
-                        Profit/Loss:&nbsp;{% if trade[10] > 0: %}<span class="has-text-success">{{trade[10]}}</span>{% elif trade[10] < 0: %}<span class="has-text-danger">{{trade[10]}}</span>{% else: %}<span>{{trade[10]}}</span>{% endif %}
+                    <div class="level">
+                        <div class="level-left">
+                            System Used: {{ trade[12] }}
+                        </div>
                     </div>
-                </div>
-                <div class="level">
-                    <div class="level-left">
-                        System Used: {{ trade[12] }}
-                    </div>
-                </div>
-            </h2>
-            <hr>
+                </h2>
+                <hr>
         </div>
-    <!-- </div> -->
-    {% endfor %}
-</div>
+        <!-- </div> -->
+        {% endfor %}
+    </div>
 </section>
 
 
 {% endblock %}
-
