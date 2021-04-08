@@ -252,7 +252,10 @@ def statsData():
     appd = 0
     for trade in averageprofitperday:
         appd += float(trade[0])
-    appd = '{0:0.2f}'.format(appd/len(averageprofitperday))
+    try:
+        appd = '{0:0.2f}'.format(appd/len(averageprofitperday))
+    except Exception:
+        appd = 0.00
     statsData['averageprofitperday'] = appd
     # end average profit per day
 
@@ -262,7 +265,10 @@ def statsData():
     averageprofitpermonth = 0
     for ret in appm:
         averageprofitpermonth += float(ret[0])
-    averageprofitpermonth = '{0:0.2f}'.format(averageprofitpermonth/len(appm))
+    try:
+        averageprofitpermonth = '{0:0.2f}'.format(averageprofitpermonth/len(appm))
+    except Exception:
+        averageprofitpermonth = 0.00
     statsData['averageprofitpermonth'] = averageprofitpermonth
     # end average profit per month
 
@@ -272,7 +278,10 @@ def statsData():
     averageprofitperquarter = 0
     for ret in appm:
         averageprofitperquarter += float(ret[0])
-    averageprofitperquarter = '{0:0.2f}'.format(averageprofitperquarter/len(appq))
+    try:
+        averageprofitperquarter = '{0:0.2f}'.format(averageprofitperquarter/len(appq))
+    except Exception:
+        averageprofitperquarter = 0.00
     statsData['averageprofitperquarter'] = averageprofitperquarter
     # end average profit per month
 
@@ -282,7 +291,10 @@ def statsData():
     averageprofitperyear = 0
     for ret in appm:
         averageprofitperyear += float(ret[0])
-    averageprofitperyear = '{0:0.2f}'.format(averageprofitperyear/len(appy))
+    try:
+        averageprofitperyear = '{0:0.2f}'.format(averageprofitperyear/len(appy))
+    except Exception:
+        averageprofitperyear = 0.00
     statsData['averageprofitperyear'] = averageprofitperyear
     # end average profit per year
 
